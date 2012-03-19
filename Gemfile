@@ -1,7 +1,7 @@
 source :rubygems
 
 group :development do
-  gem 'rspec'
+  gem 'rspec', :require => 'spec'
   gem 'cucumber'
   gem 'guard'
   gem 'guard-rspec'
@@ -9,6 +9,7 @@ group :development do
   gem 'ruby_gntp'
 end
 
+gem 'rake'
 gem 'yard'
 gem 'yard-rspec'
 gem 'yard-cucumber'
