@@ -1,5 +1,7 @@
 source :rubygems
 
+gem 'rubyzip'
+
 group :development do
   gem 'rspec', :require => 'spec'
   gem 'cucumber'

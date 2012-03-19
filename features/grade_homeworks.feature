@@ -5,3 +5,4 @@ Feature: Grade homeworks
     When Grader get the path of the zip file "fixtures/20120227.zip"
     Then Grader should get valid_zip_filename? "true"
     And Grader should get yourid "20120227"
+    And Grader should get pyfilename "20120227.py"
