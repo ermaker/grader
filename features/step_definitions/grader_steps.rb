@@ -2,7 +2,7 @@ Given /^a Grader$/ do
   @grader = Grader.new
 end
 
-When /^Grader get the path of the zip file "(.+)"$/ do |path|
+When /^Grader gets the path of the zip file "(.+)"$/ do |path|
   @grader.path = path
 end
 
