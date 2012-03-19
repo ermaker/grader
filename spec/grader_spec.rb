@@ -76,4 +76,18 @@ describe Grader do
       subject.docfilename.should == '20120227.doc'
     end
   end
+
+  describe '#run' do
+    it 'returns true with a working file' do
+      subject.path = 'fixtures/20120227.zip'
+      subject.stub!(:file).and_return { File.read('fixtures/correct.py') }
+      subject.run('fixtures/maze1.wld').should be_true
+    end
+
+    it 'returns false with an empty file' do
+      subject.path = 'fixtures/20120227.zip'
+      subject.stub!(:file).and_return { File.read('fixtures/empty.py') }
+      subject.run('fixtures/maze1.wld').should_not be_true
+    end
+  end
 end

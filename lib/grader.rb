@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'zip/zip'
+require 'open3'
+require 'tmpdir'
 
 class Grader
   attr_accessor :path
@@ -18,6 +20,10 @@ class Grader
     end
   end
 
+  def file(filepath)
+    Zip::ZipFile.open(path) {|zip_file| zip_file.read(filepath)}
+  end
+
   def pyfilename
     files.find {|fn| File.basename(fn) == "#{yourid}.py"}
   end
@@ -28,5 +34,22 @@ class Grader
 
   def docfilename
     files.find {|fn| File.basename(fn) =~ /^#{yourid}\.docx?$/}
+  end
+
+  def run wldfilename
+    code = file(pyfilename)
+    code.gsub!(/load_world\s*\(.*\)/, "load_world('#{wldfilename}')")
+    output = Dir.mktmpdir do |tmpdir|
+      Open3.popen3("python") do |i,o,e,t|
+        i.puts code
+        i.puts 'import cs1robots'
+        i.puts 'print hubo.on_beeper() and ami.on_beeper() and len(cs1robots._world.beepers) == 1'
+        i.puts 'cs1robots._scene.close()'
+        i.puts 'exit()'
+        i.close
+        e.read + o.read
+      end
+    end
+    !!(output =~ /True/)
   end
 end
