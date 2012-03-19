@@ -64,11 +64,16 @@ describe Grader do
   describe '#docfilename' do
     before do
       subject.path = 'fixtures/20120227.zip'
-      subject.stub!(:files).and_return { ['20120227.docx'] }
     end
 
-    it 'returns the correct filename' do
+    it 'returns the correct filename with docx extension' do
+      subject.stub!(:files).and_return { ['20120227.docx'] }
       subject.docfilename.should == '20120227.docx'
+    end
+
+    it 'returns the correct filename with doc extension' do
+      subject.stub!(:files).and_return { ['20120227.doc'] }
+      subject.docfilename.should == '20120227.doc'
     end
   end
 end
