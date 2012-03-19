@@ -7,3 +7,4 @@ Feature: Grade homeworks
     And Grader should get yourid "20120227"
     And Grader should get pyfilename "20120227.py"
     And Grader should get wldfilename "20120227.wld"
+    And Grader should get docfilename "20120227.docx"

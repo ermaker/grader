@@ -60,4 +60,15 @@ describe Grader do
       subject.wldfilename.should == '20120227.wld'
     end
   end
+
+  describe '#docfilename' do
+    before do
+      subject.path = 'fixtures/20120227.zip'
+      subject.stub!(:files).and_return { ['20120227.docx'] }
+    end
+
+    it 'returns the correct filename' do
+      subject.docfilename.should == '20120227.docx'
+    end
+  end
 end

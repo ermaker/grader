@@ -25,4 +25,8 @@ class Grader
   def wldfilename
     files.find {|fn| File.basename(fn) == "#{yourid}.wld"}
   end
+
+  def docfilename
+    files.find {|fn| File.basename(fn) =~ /^#{yourid}\.docx?$/}
+  end
 end
