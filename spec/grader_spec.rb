@@ -49,4 +49,15 @@ describe Grader do
       subject.pyfilename.should == '20120227.py'
     end
   end
+
+  describe '#wldfilename' do
+    before do
+      subject.path = 'fixtures/20120227.zip'
+      subject.stub!(:files).and_return { ['20120227.wld'] }
+    end
+
+    it 'returns the correct filename' do
+      subject.wldfilename.should == '20120227.wld'
+    end
+  end
 end

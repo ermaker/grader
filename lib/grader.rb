@@ -21,4 +21,8 @@ class Grader
   def pyfilename
     files.find {|fn| File.basename(fn) == "#{yourid}.py"}
   end
+
+  def wldfilename
+    files.find {|fn| File.basename(fn) == "#{yourid}.wld"}
+  end
 end

@@ -6,3 +6,4 @@ Feature: Grade homeworks
     Then Grader should get valid_zip_filename? "true"
     And Grader should get yourid "20120227"
     And Grader should get pyfilename "20120227.py"
+    And Grader should get wldfilename "20120227.wld"
