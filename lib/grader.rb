@@ -6,7 +6,7 @@ require 'tmpdir'
 class Grader
   attr_accessor :path
 
-  def valid_zip_filename?
+  def exact_zipfilename?
     !!(File.basename(path) =~ /^\d{8}(\[\d+\])?.zip$/)
   end
 
