@@ -37,11 +37,17 @@ class Grader
   end
 
   def pyfilename
-    result = files.find {|fn| File.basename(fn) == "#{yourid}.py"}
-    return result if result
+    return "#{yourid}.py" if exact_pyfilename?
+    pyfiles = files.select {|fn| File.basename(fn) == "#{yourid}.py"}
+    unless pyfiles.empty?
+      return pyfiles.first if pyfiles.one?
+      raise 'Many possible files.'
+    end
     pyfiles = files.select {|fn| File.extname(fn) == '.py'}
     return pyfiles.first if pyfiles.one?
-    raise 'No exact py file and more than one py files.'
+    pyfiles = files.select {|fn| File.basename(fn) =~ /#{yourid}.*\.py$/}
+    return pyfiles.first if pyfiles.one?
+    raise 'Undecidable situation.'
   end
 
   def wldfilename

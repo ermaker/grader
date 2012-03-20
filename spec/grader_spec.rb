@@ -123,14 +123,29 @@ describe Grader do
         'test.py',
         'yourid.py',
       ].each do |filename|
-        subject.stub!(:files).and_return { filename }
+        subject.stub!(:files).and_return { [filename] }
         subject.pyfilename.should == filename
       end
     end
 
+    it 'returns the good filename with the filename containing yourid and other filenames' do
+      subject.stub!(:files).and_return { ['20120227_1.py', 'yourid.py'] }
+      subject.pyfilename.should == '20120227_1.py'
+    end
+
+    it 'returns the exact filename if there exists' do
+      subject.stub!(:files).and_return { ['20120227/20120227.py', '20120227.py'] }
+      subject.pyfilename.should == '20120227.py'
+    end
+
+    it 'raises the error if there are the valid filenames' do
+      subject.stub!(:files).and_return { ['20120227_1/20120227.py', '20120227_2/20120227.py'] }
+      expect { subject.pyfilename }.to raise_error('Many possible files.')
+    end
+
     it 'raises the error if there is no exact py file and there are more than one py files.' do
       subject.stub!(:files).and_return { ['test.py', 'yourid.py'] }
-      expect { subject.pyfilename }.to raise_error('No exact py file and more than one py files.')
+      expect { subject.pyfilename }.to raise_error('Undecidable situation.')
     end
   end
 
