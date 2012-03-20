@@ -52,9 +52,9 @@ describe Grader do
       subject.should_not be_exact_pyfilename
     end
 
-    it 'returns false with the exact filename on a path' do
+    it 'returns true with the exact filename on a path' do
       subject.stub!(:files).and_return { ['20122027/20120227.py'] }
-      subject.should_not be_exact_pyfilename
+      subject.should be_exact_pyfilename
     end
   end
 
@@ -71,9 +71,9 @@ describe Grader do
       subject.should_not be_exact_wldfilename
     end
 
-    it 'returns false with the exact filename on a path' do
+    it 'returns true with the exact filename on a path' do
       subject.stub!(:files).and_return { ['20122027/20120227.wld'] }
-      subject.should_not be_exact_wldfilename
+      subject.should be_exact_wldfilename
     end
   end
 
@@ -95,9 +95,9 @@ describe Grader do
       subject.should_not be_exact_docfilename
     end
 
-    it 'returns false with the exact filename on a path' do
+    it 'returns true with the exact filename on a path' do
       subject.stub!(:files).and_return { ['20122027/20120227.docx'] }
-      subject.should_not be_exact_docfilename
+      subject.should be_exact_docfilename
     end
   end
 

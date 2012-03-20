@@ -25,21 +25,21 @@ class Grader
   end
 
   def exact_pyfilename?
-    files.include?("#{yourid}.py")
+    files.any? {|fn| File.basename(fn) == "#{yourid}.py"}
   end
 
   def exact_wldfilename?
-    files.include?("#{yourid}.wld")
+    files.any? {|fn| File.basename(fn) == "#{yourid}.wld"}
   end
 
   def exact_docfilename?
-    files.any? {|fn| fn =~ /^#{yourid}\.docx?$/}
+    files.any? {|fn| File.basename(fn) =~ /^#{yourid}\.docx?$/}
   end
 
   def pyfilename
-    return "#{yourid}.py" if exact_pyfilename?
     pyfiles = files.select {|fn| File.basename(fn) == "#{yourid}.py"}
     unless pyfiles.empty?
+      return "#{yourid}.py" if pyfiles.include?("#{yourid}.py")
       return pyfiles.first if pyfiles.one?
       raise 'Many possible files.'
     end
