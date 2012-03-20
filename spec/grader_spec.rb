@@ -39,6 +39,68 @@ describe Grader do
     end
   end
 
+  describe '#exact_pyfilename?' do
+    before { subject.path = 'fixtures/20120227.zip' }
+
+    it 'returns true with the exact filename' do
+      subject.stub!(:files).and_return { ['20120227.py'] }
+      subject.should be_exact_pyfilename
+    end
+
+    it 'returns false with the not exact filename' do
+      subject.stub!(:files).and_return { ['20120227[1].py'] }
+      subject.should_not be_exact_pyfilename
+    end
+
+    it 'returns false with the exact filename on a path' do
+      subject.stub!(:files).and_return { ['20122027/20120227.py'] }
+      subject.should_not be_exact_pyfilename
+    end
+  end
+
+  describe '#exact_wldfilename?' do
+    before { subject.path = 'fixtures/20120227.zip' }
+
+    it 'returns true with the exact filename' do
+      subject.stub!(:files).and_return { ['20120227.wld'] }
+      subject.should be_exact_wldfilename
+    end
+
+    it 'returns false with the not exact filename' do
+      subject.stub!(:files).and_return { ['20120227[1].wld'] }
+      subject.should_not be_exact_wldfilename
+    end
+
+    it 'returns false with the exact filename on a path' do
+      subject.stub!(:files).and_return { ['20122027/20120227.wld'] }
+      subject.should_not be_exact_wldfilename
+    end
+  end
+
+  describe '#exact_docfilename?' do
+    before { subject.path = 'fixtures/20120227.zip' }
+
+    it 'returns true with the exact filename with docx extension' do
+      subject.stub!(:files).and_return { ['20120227.docx'] }
+      subject.should be_exact_docfilename
+    end
+
+    it 'returns true with the exact filename with doc extension' do
+      subject.stub!(:files).and_return { ['20120227.doc'] }
+      subject.should be_exact_docfilename
+    end
+
+    it 'returns false with the not exact filename' do
+      subject.stub!(:files).and_return { ['20120227[1].docx'] }
+      subject.should_not be_exact_docfilename
+    end
+
+    it 'returns false with the exact filename on a path' do
+      subject.stub!(:files).and_return { ['20122027/20120227.docx'] }
+      subject.should_not be_exact_docfilename
+    end
+  end
+
   describe '#pyfilename' do
     before do
       subject.path = 'fixtures/20120227.zip'

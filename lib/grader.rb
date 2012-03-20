@@ -24,6 +24,18 @@ class Grader
     Zip::ZipFile.open(path) {|zip_file| zip_file.read(filepath)}
   end
 
+  def exact_pyfilename?
+    files.include?("#{yourid}.py")
+  end
+
+  def exact_wldfilename?
+    files.include?("#{yourid}.wld")
+  end
+
+  def exact_docfilename?
+    files.any? {|fn| fn =~ /^#{yourid}\.docx?$/}
+  end
+
   def pyfilename
     files.find {|fn| File.basename(fn) == "#{yourid}.py"}
   end
