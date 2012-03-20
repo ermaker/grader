@@ -104,11 +104,33 @@ describe Grader do
   describe '#pyfilename' do
     before do
       subject.path = 'fixtures/20120227.zip'
-      subject.stub!(:files).and_return { ['20120227.py'] }
     end
 
     it 'returns the correct filename' do
+      subject.stub!(:files).and_return { ['20120227.py'] }
       subject.pyfilename.should == '20120227.py'
+    end
+
+    it 'returns the good filename with the exact filename and the additional path' do
+      subject.stub!(:files).and_return { ['20120227/20120227.py'] }
+      subject.pyfilename.should == '20120227/20120227.py'
+    end
+
+    it 'returns the filename if there is the only one pyfile' do
+      [
+        '20120227_1.py',
+        'final_20120227.py',
+        'test.py',
+        'yourid.py',
+      ].each do |filename|
+        subject.stub!(:files).and_return { filename }
+        subject.pyfilename.should == filename
+      end
+    end
+
+    it 'raises the error if there is no exact py file and there are more than one py files.' do
+      subject.stub!(:files).and_return { ['test.py', 'yourid.py'] }
+      expect { subject.pyfilename }.to raise_error('No exact py file and more than one py files.')
     end
   end
 
