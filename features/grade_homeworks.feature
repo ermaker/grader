@@ -13,3 +13,5 @@ Feature: Grade homeworks
     And Grader should get docfilename "20120227.docx"
     When Grader runs homework with "fixtures/maze1.wld"
     Then The result should be "true"
+    When Grader runs homework with "20120227.wld" in the zip file
+    Then The result should be "true"

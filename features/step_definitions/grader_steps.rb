@@ -10,6 +10,10 @@ When /^Grader runs homework with "(.+)"$/ do |wldfilename|
   @result = @grader.run(wldfilename)
 end
 
+When /^Grader runs homework with "(.+)" in the zip file$/ do |wldfilename_in_zipfile|
+  @result = @grader.run(wldfilename_in_zipfile, :in => :zip)
+end
+
 Then /^Grader should get (.+) "(.+)"$/ do |method,expected|
   @grader.send(method).to_s.should == expected
 end

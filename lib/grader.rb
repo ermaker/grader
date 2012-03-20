@@ -58,10 +58,15 @@ class Grader
     files.find {|fn| File.basename(fn) =~ /^#{yourid}\.docx?$/}
   end
 
-  def run wldfilename
-    code = file(pyfilename)
-    code.gsub!(/load_world\s*\(.*\)/, "load_world('#{wldfilename}')")
+  def run wldfilename, *options
+    _wldfilename = wldfilename
     output = Dir.mktmpdir do |tmpdir|
+      code = file(pyfilename)
+      if not options.empty? and options.first[:in] == :zip
+        _wldfilename = File.join(tmpdir, File.basename(wldfilename))
+        File.open(_wldfilename, 'w') {|f| f << file(wldfilename)}
+      end
+      code.gsub!(/load_world\s*\(.*\)/, "load_world('#{_wldfilename}')")
       Open3.popen3("python") do |i,o,e,t|
         i.puts code
         i.puts 'import cs1robots'

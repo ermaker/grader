@@ -177,16 +177,23 @@ describe Grader do
   end
 
   describe '#run' do
+    before { subject.path = 'fixtures/20120227.zip' }
+
     it 'returns true with a working file' do
-      subject.path = 'fixtures/20120227.zip'
       subject.stub!(:file).and_return { File.read('fixtures/correct.py') }
       subject.run('fixtures/maze1.wld').should be_true
     end
 
     it 'returns false with an empty file' do
-      subject.path = 'fixtures/20120227.zip'
       subject.stub!(:file).and_return { File.read('fixtures/empty.py') }
       subject.run('fixtures/maze1.wld').should_not be_true
+    end
+
+    it 'returns true with a working file and wld file in the zip' do
+      subject.stub!(:files).and_return { ['20120227.py', '20120227.wld'] }
+      subject.stub!(:file).with('20120227.py').and_return { File.read('fixtures/correct.py') }
+      subject.stub!(:file).with('20120227.wld').and_return { File.read('fixtures/maze4.wld') }
+      subject.run('20120227.wld', :in => :zip).should be_true
     end
   end
 end
